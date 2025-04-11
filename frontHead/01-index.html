@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI模型调用</title>
+    <link rel="stylesheet" href="../frontHead/02-AImodel.css">
+    <script src="../frontHead/03-AImodel.js"></script>
+</head>
+
+<body>
+    <!--头部设置-->
+    <div class="nav">
+        <div class="left-nav">AI——model</div>
+        <div class="right-nav">
+            <div class="search">
+                <input type="text" placeholder="请输入关键词">
+                <button><img src="../imgService/search.png"></button>
+            </div>
+            <div class="userMessage">
+                <div class="user">user</div>
+                <img src="../imgService/user_icon.png" class="oneUser" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!--侧边栏设置-->
+    <div class="contain">
+        <div class="leftSide">
+            <div class="leftSide-upper">
+                <div class="sideDetail">
+                    <img src="../imgService/house_icon.png" alt="">
+                    <div class="sd-text">首页</div>
+                </div>
+                <div class="sideDetail">
+                    <img src="../imgService/book_icon.png" alt="">
+                    <div class="sd-text">资源中心</div>
+                </div>
+                <div class="sideDetail">
+                    <img src="../imgService/operation_icon.png" alt="">
+                    <div class="sd-text">工作台</div>
+                </div>
+                <div class="sideDetail">
+                    <img src="../imgService/user_icon.png" alt="">
+                    <div class="sd-text">个人信息</div>
+                </div>
+            </div>
+            <div class="leftSide-bottom">
+                <div class="sideDetail">
+                    <img src="../imgService/help_icon.png" alt="">
+                    <div class="sd-text">帮助</div>
+                </div>
+                <div class="moreAbout">
+                    <div class="more">更多</div>
+                    <div class="About">关于</div>
+                </div>
+                <div class="exit">
+                    <img src="../imgService/exit_icon.png" alt="">
+                    <div class="sd-text">退出登录</div>
+                </div>
+            </div>
+        </div>
+        <div class="middleSide">
+            <div class="middleSide-head">
+                <div class="addProject">+ 新建项目</div>
+                <div class="find">查看结果</div>
+            </div>
+            <div class="middleSide-mid">
+                <div class="margin-style">
+                    <div class="midDetail">视网膜1</div>
+                </div>
+                <div class="margin-style">
+                    <div class="midDetail">影评1</div>
+                </div>
+                <div class="margin-style">
+                    <div class="midDetail">结肠癌模型预测</div>
+                </div>
+            </div>
+        </div>
+        <div class="rightSide">
+            <div class="rightSide-head">
+                <div class="model-style">模型库</div>
+                <img src="../imgService/delete_icon.png" alt="删除">
+            </div>
+            <div class="rightSide-upper">
+                <div class="layer" id="addLayerBtn">增加层级</div>
+                <div class="upload" id="uploadBtn">+ 上传</div>
+            </div>
+            <div class="rightSide-body">
+                <div class="border-style" draggable="true" data-model="openai">
+                    <a class="rbDetail" href="#">open ai</a>
+                </div>
+                <div class="border-style" draggable="true" data-model="deepseek">
+                    <a class="rbDetail" href="#">deepseek</a>
+                </div>
+                <div class="border-style" draggable="true" data-model="tencent">
+                    <a class="rbDetail" href="#">腾讯元宝</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 增强版模型详情卡片 -->
+    <div class="model-info-overlay" id="modelInfoCard">
+        <div class="model-info-container">
+            <div class="model-info-header">
+                <img class="model-logo" id="modelLogo" src="" alt="模型logo">
+                <div class="model-title">
+                    <h3 id="modelName"></h3>
+                    <a id="modelUrl" href="#" target="_blank" class="model-link">访问官网</a>
+                </div>
+                <span class="close-btn">&times;</span>
+            </div>
+
+            <div class="model-info-content">
+                <div class="model-description">
+                    <h4>模型简介</h4>
+                    <p id="modelDescription"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="templateBox" class="newBox">
+        <div class="addLayer">
+            <div class="layerNum">层级 1</div>
+            <div class="layer-content dropzone" data-layer-id="1">内容区域 1</div>
+        </div>
+    </div>
+    <!-- 层级盒子将在这里动态添加 -->
+    <div id="layerContainer"></div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-title">运行项目</div>
+            <div class="server-selection">
+                <div class="server-options">
+                    <div class="server-option  active">智能选择</div>
+                    <div class="server-option">服务器1</div>
+                    <div class="server-option">服务器2</div>
+                </div>
+            </div>
+            <div class="project">
+                <div class="project-name">项目名称</div>
+                <input type="text" class="text-input projectName" placeholder="请输入项目名称">
+            </div>
+            <div class="project">
+                <div class="project-name">文本内容</div>
+                <input type="text" class="text-input textName" placeholder="请输入文本">
+            </div>
+            <div class="image-upload-container">
+                <div class="image-preview"></div>
+                <div class="upload-control">
+                    <div class="upload-section">
+                        <div class="upload-text">+ 上传图片(可选)</div>
+                        <input type="file" id="imageUpload" accept="image/*" style="display:none">
+                    </div>
+                </div>
+            </div>
+            <button class="upload-btn" id="submitBtn">提交</button>
+            <button class="cancel-btn">取消</button>
+        </div>
+    </div>
+</body>
+
+</html>

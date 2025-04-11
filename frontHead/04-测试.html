@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>这是⼀个前端发送请求的例⼦</h1>
+    <button id="fetchButton">发送请求</button>
+    <div id="response"></div>
+</body>
+<script>
+    const fetchButton = document.getElementById('fetchButton');
+    const responseDiv = document.getElementById('response');
+
+    fetchButton.addEventListener('click', () => {
+        // ⽰例数据
+        const data = {
+            "image": "",
+            "content": "测试",
+            "modelList": [
+                {
+                    "layer": 1,
+                    "parallel": 0,
+                    "models": [
+                        {
+                            "modelName": "英⽂影评⼆元情感识别LSTM_model",
+                            "modelUrl": "https://qg23onnx.obs.cn-south1.myhuaweicloud.com/onnx/LSTM_model.onnx",
+                            "isAPI": 0,
+                            "weight": 1
+                        }
+                    ]
+                },
+            ]
+        }
+        sendRequest(data)
+    })
+
+
+    function sendRequest(data) {
+        fetch('http://localhost:3001/api', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('成功:', data);
+                alert('项目提交成功！');
+                modalOverlay.style.display = 'none';
+
+                // 清空输入
+                document.querySelector('.projectName').value = '';
+                document.querySelector('.textName').value = '';
+                imagePreview.innerHTML = '';
+                imagePreview.style.display = 'none';
+                uploadContainer.classList.remove('has-image');
+                document.querySelector('.upload-text').textContent = '上传图片(可选)';
+                imageUpload.value = '';
+            })
+            .catch((error) => {
+                console.error('错误:', error);
+                alert('提交失败，请稍后重试');
+            });
+    }
+
+</script>
+
+</html>
